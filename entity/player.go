@@ -1,8 +1,8 @@
-// Player data
 package entity
 
 import "time"
 
+// Player data
 type Player struct {
 	ID        uint64
 	Name      string

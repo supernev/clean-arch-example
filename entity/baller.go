@@ -2,6 +2,7 @@ package entity
 
 import "time"
 
+// BallerRepo is interface for get/save Baller entity
 type BallerRepo interface {
 	Get(id uint64) *Baller
 	GetList(playerID uint64) []*Baller
@@ -9,6 +10,7 @@ type BallerRepo interface {
 	StoreMany(ballers []*Baller)
 }
 
+// Baller entity
 type Baller struct {
 	ID        uint64
 	PlayerID  uint64
@@ -18,6 +20,7 @@ type Baller struct {
 	CreatedAt time.Time
 }
 
+// Create a Baller entity
 func Create(playerID uint64) *Baller {
 	var baller = Baller{
 		ID:        1,
