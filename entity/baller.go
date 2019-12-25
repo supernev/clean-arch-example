@@ -2,14 +2,6 @@ package entity
 
 import "time"
 
-// BallerRepo is interface for get/save Baller entity
-type BallerRepo interface {
-	Get(id uint64) *Baller
-	GetList(playerID uint64) []*Baller
-	Store(baller *Baller)
-	StoreMany(ballers []*Baller)
-}
-
 // Baller entity
 type Baller struct {
 	ID        uint64
