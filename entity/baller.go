@@ -20,8 +20,8 @@ type Baller struct {
 	CreatedAt time.Time
 }
 
-// Create a Baller entity
-func Create(playerID uint64) *Baller {
+// CreateBaller public function
+func CreateBaller(playerID uint64) *Baller {
 	var baller = Baller{
 		ID:        1,
 		PlayerID:  playerID,
