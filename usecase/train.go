@@ -4,47 +4,41 @@ import (
 	"fmt"
 )
 
-// Train usecase
-type Train struct {
+// TrainUcase - Train Usecase
+type TrainUcase struct {
+	eventManager *EventManager
 }
 
 // Init method
-func (mod Train) Init() {
-	var man = GetEventManager()
-	man.Register(EventIDRequestTrain, mod.handleRequestTrain)
+func (mod *TrainUcase) Init(eventManager *EventManager) {
+	mod.eventManager = eventManager
+	mod.eventManager.Register(EventIDRequestTrain, mod.handleRequestTrain)
 }
 
 // Run method
-func (mod Train) Run() {
+func (mod *TrainUcase) Run() {
 
 }
 
 // Destroy method
-func (mod Train) Destroy() {
+func (mod *TrainUcase) Destroy() {
 
 }
 
-func (mod Train) handleRequestTrain(ev IEvent) {
+func (mod *TrainUcase) handleRequestTrain(ev IEvent) {
 	var req = ev.(EventRequestTrain)
 	var ballerID = req.BallerID
 	var playerID = req.BallerID
 	fmt.Println("PlayerID=", playerID, "BallerID=", ballerID)
 
-	// var tx = repo.StartTransaction()
-	// var baller = tx.GetBaller(ballerID)
-	// baller.lv += 1
-	// tx.commit()
-
-	var man = GetEventManager()
-
-	man.Dispatch(EventIDTrain, EventTrain{
+	mod.eventManager.Dispatch(EventIDTrain, EventTrain{
 		PlayerID: playerID,
 		BallerID: ballerID,
 		OldLevel: 1,
 		NewLevel: 2,
 	})
 
-	man.Dispatch(EventIDResponseTrain, EventResponseTrain{
+	mod.eventManager.Dispatch(EventIDResponseTrain, EventResponseTrain{
 		ResultCode: 0,
 		OldLevel:   1,
 		NewLevel:   2,

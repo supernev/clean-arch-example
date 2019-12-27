@@ -15,12 +15,12 @@ func GetEventManager() *EventManager {
 }
 
 // Register - Register function to handle a event
-func (m EventManager) Register(evid EventID, fn func(ev IEvent)) {
+func (m *EventManager) Register(evid EventID, fn func(ev IEvent)) {
 	m.handlers[evid] = fn
 }
 
 // Dispatch - a event
-func (m EventManager) Dispatch(evid EventID, ev IEvent) {
+func (m *EventManager) Dispatch(evid EventID, ev IEvent) {
 	var fn = m.handlers[evid]
 	if fn != nil {
 		fn(ev)
