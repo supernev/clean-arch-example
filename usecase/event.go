@@ -1,19 +1,35 @@
 package usecase
 
+import "container/list"
+
 // EventID enum
 type EventID uint32
 
 // EventID definition
 const (
-	EventIDTimer         EventID = 10000
+	// Timer
+	EventIDTimer EventID = 10000
+
+	// Client events
 	EventIDRequestTrain  EventID = 10011
 	EventIDResponseTrain EventID = 10012
-	EventIDTrain         EventID = 20001
-	EventIDGameFinish    EventID = 20002
+
+	// Gameplay events
+	EventIDTrain      EventID = 20001
+	EventIDGameFinish EventID = 20002
+
+	// Entity change events
+	EventIDBallerChanged EventID = 90001
 )
 
 // IEvent - Event interface
 type IEvent interface {
+}
+
+// IEventManager - Event manager interface
+type IEventManager interface {
+	Register(evid EventID, fn func(ev IEvent))
+	Dispatch(evid EventID, ev IEvent)
 }
 
 // EventRequestTrain - Event definition
@@ -35,4 +51,9 @@ type EventTrain struct {
 	BallerID uint64
 	OldLevel uint32
 	NewLevel uint32
+}
+
+// EventBallerChanged - Event when data change
+type EventBallerChanged struct {
+	Ballers list.List
 }
