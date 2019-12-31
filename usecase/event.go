@@ -1,6 +1,8 @@
 package usecase
 
-import "container/list"
+import (
+	"clean-arch-example/entity"
+)
 
 // EventID enum
 type EventID uint32
@@ -55,5 +57,5 @@ type EventTrain struct {
 
 // EventBallerChanged - Event when data change
 type EventBallerChanged struct {
-	Ballers list.List
+	Ballers []entity.Baller
 }

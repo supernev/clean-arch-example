@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"container/list"
+	"clean-arch-example/entity"
 	"fmt"
 )
 
@@ -43,10 +43,8 @@ func (mod *TrainUcase) handleRequestTrain(ev IEvent) {
 	// Store
 	mod.ballerRepo.Store(baller)
 
-	var changedBallers = list.List{}
-	changedBallers.PushBack(baller)
 	mod.eventManager.Dispatch(EventIDBallerChanged, EventBallerChanged{
-		Ballers: changedBallers,
+		Ballers: []entity.Baller{baller},
 	})
 
 	mod.eventManager.Dispatch(EventIDTrain, EventTrain{
