@@ -2,20 +2,26 @@ package usecase
 
 import (
 	"clean-arch-example/entity"
-	"fmt"
 )
 
 // TrainUcase - Train Usecase
 type TrainUcase struct {
 	eventManager IEventManager
 	ballerRepo   IBallerRepo
+	agent        IAgent
 }
 
 // Init method
-func (mod *TrainUcase) Init(eventManager IEventManager, ballerRepo IBallerRepo) {
+func (mod *TrainUcase) Init(
+	eventManager IEventManager,
+	ballerRepo IBallerRepo,
+	agent IAgent,
+) {
 	mod.eventManager = eventManager
 	mod.ballerRepo = ballerRepo
-	mod.eventManager.Register(EventIDRequestTrain, mod.handleRequestTrain)
+	mod.agent = agent
+
+	mod.agent.OnRequestTrain(mod.handleRequestTrain)
 }
 
 // Run method
@@ -28,17 +34,14 @@ func (mod *TrainUcase) Destroy() {
 
 }
 
-func (mod *TrainUcase) handleRequestTrain(ev IEvent) {
-	var req = ev.(EventRequestTrain)
-	var ballerID = req.BallerID
-	var playerID = req.BallerID
-	fmt.Println("PlayerID=", playerID, "BallerID=", ballerID)
-
+func (mod *TrainUcase) handleRequestTrain(ballerID uint64, playerID uint64) {
 	// Fetch
 	var baller = mod.ballerRepo.Fetch(ballerID)
 
+	var oldLevel = baller.Level
 	// Change properties
 	baller.Level = baller.Level + 1
+	var newLevel = baller.Level
 
 	// Store
 	mod.ballerRepo.Store(baller)
@@ -54,9 +57,5 @@ func (mod *TrainUcase) handleRequestTrain(ev IEvent) {
 		NewLevel: 2,
 	})
 
-	mod.eventManager.Dispatch(EventIDResponseTrain, EventResponseTrain{
-		ResultCode: 0,
-		OldLevel:   1,
-		NewLevel:   2,
-	})
+	mod.agent.ResponseTrain(Success, oldLevel, newLevel)
 }
