@@ -14,8 +14,8 @@ type BallerFileRepo struct {
 }
 
 // NewBallerFileRepo - Create a baller repo with json file implementation
-func NewBallerFileRepo() IBallerRepo {
-	return &BallerFileRepo{}
+func NewBallerFileRepo() *BallerFileRepo {
+	return new(BallerFileRepo)
 }
 
 func getFileName(ballerID uint64) string {

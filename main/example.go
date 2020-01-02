@@ -10,13 +10,13 @@ func main() {
 	fmt.Println("Starting example")
 	defer fmt.Println("Stopping example")
 
-	var eventManager usecase.IEventManager = usecase.GetSimpleEventManager()
-	var ballerRepo example.IBallerRepo = example.NewBallerFileRepo()
+	var eventManager = usecase.NewSimpleEventManager()
+	var ballerRepo = example.NewBallerFileRepo()
 
-	var modTrain = example.TrainUcase{EventManager: eventManager, BallerRepo: ballerRepo}
+	var modTrain = example.NewTrainUcase(eventManager, ballerRepo)
 
-	var app = usecase.ApplicationSimple{}
-	app.AddModule(&modTrain)
+	var app = usecase.NewApplicationSimple()
+	app.AddModule(modTrain)
 
 	app.Start()
 }

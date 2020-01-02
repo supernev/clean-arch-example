@@ -7,6 +7,11 @@ type ApplicationSimple struct {
 	modules []IModule
 }
 
+// NewApplicationSimple - Get new app instance
+func NewApplicationSimple() *ApplicationSimple {
+	return &ApplicationSimple{[]IModule{}}
+}
+
 // AddModule - Plugin a module
 func (app *ApplicationSimple) AddModule(mod IModule) {
 	app.modules = append(app.modules, mod)
