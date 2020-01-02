@@ -8,9 +8,9 @@ import (
 )
 
 func TestRequestTrain(t *testing.T) {
-	var eventManager = usecase.GetSimpleEventManager()
+	var eventManager = usecase.NewSimpleEventManager()
 	var ballerRepo = example.NewBallerFileRepo()
-	var mod = example.TrainUcase{EventManager: eventManager, BallerRepo: ballerRepo}
+	var mod = example.NewTrainUcase(eventManager, ballerRepo)
 	mod.Init()
 
 	// Setup data

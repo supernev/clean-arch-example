@@ -10,7 +10,7 @@ func TestReadWrite(t *testing.T) {
 		ID: 1001,
 	}
 
-	var repo = example.BallerFileRepo{}
+	var repo = example.NewBallerFileRepo()
 	repo.Store(baller)
 
 	var sameBaller = repo.Fetch(1001)
