@@ -1,7 +1,5 @@
 package adapter
 
-import "clean-arch-example/usecase"
-
 // HTTPAgent - HTTP implementation for agent interface
 type HTTPAgent struct {
 	requestTrainHandler func(ballerID uint64, playerID uint64)
@@ -13,8 +11,8 @@ func (mod *HTTPAgent) GetIP() string {
 }
 
 // GetOS - Get OS of client
-func (mod *HTTPAgent) GetOS() usecase.TypeOS {
-	return usecase.OSAndroid
+func (mod *HTTPAgent) GetOS() string {
+	return "Android"
 }
 
 // GetVersion - Get version of client

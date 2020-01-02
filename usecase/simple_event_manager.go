@@ -6,7 +6,7 @@ type SimpleEventManager struct {
 }
 
 // GetSimpleEventManager - Static function to get
-func GetSimpleEventManager() *SimpleEventManager {
+func GetSimpleEventManager() IEventManager {
 	return &SimpleEventManager{
 		handlers: map[EventID][]func(IEvent){},
 	}

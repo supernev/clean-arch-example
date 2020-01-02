@@ -1,7 +1,7 @@
-package usecase
+package example
 
 // ErrorCode - Error code in game
-type ErrorCode uint32
+type ErrorCode = uint32
 
 // Error code enum
 const (

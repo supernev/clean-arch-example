@@ -1,17 +1,16 @@
 package test
 
 import (
-	"clean-arch-example/entity"
-	"clean-arch-example/repo"
+	"clean-arch-example/example"
 	"testing"
 )
 
 func TestReadWrite(t *testing.T) {
-	var baller = entity.Baller{
+	var baller = example.Baller{
 		ID: 1001,
 	}
 
-	var repo = repo.BallerFileRepo{}
+	var repo = example.BallerFileRepo{}
 	repo.Store(baller)
 
 	var sameBaller = repo.Fetch(1001)

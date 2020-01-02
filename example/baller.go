@@ -1,4 +1,4 @@
-package entity
+package example
 
 import "time"
 
