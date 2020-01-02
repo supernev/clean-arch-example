@@ -47,5 +47,5 @@ type EventTrain struct {
 
 // EventBallerChanged - Event when data change
 type EventBallerChanged struct {
-	Ballers []Baller
+	Ballers []*Baller
 }

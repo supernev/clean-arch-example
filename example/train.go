@@ -7,11 +7,11 @@ import (
 // TrainUcase - Train Usecase
 type TrainUcase struct {
 	eventManager usecase.IEventManager
-	ballerRepo   IBallerRepo
+	playerRepo   IPlayerRepo
 }
 
 // NewTrainUcase - Create new instance
-func NewTrainUcase(eventManager usecase.IEventManager, ballerRepo IBallerRepo) *TrainUcase {
+func NewTrainUcase(eventManager usecase.IEventManager, ballerRepo IPlayerRepo) *TrainUcase {
 	return &TrainUcase{eventManager, ballerRepo}
 }
 
@@ -35,7 +35,7 @@ func (mod *TrainUcase) handleRequestTrain(ev usecase.IEvent) {
 	var playerID = args.PlayerID
 
 	// Fetch
-	var baller = mod.ballerRepo.Fetch(ballerID)
+	var baller = mod.playerRepo.FetchBaller(playerID, ballerID)
 
 	var oldLevel = baller.Level
 	// Change properties
@@ -43,10 +43,10 @@ func (mod *TrainUcase) handleRequestTrain(ev usecase.IEvent) {
 	var newLevel = baller.Level
 
 	// Store
-	mod.ballerRepo.Store(baller)
+	mod.playerRepo.StoreBaller(baller)
 
 	mod.eventManager.Dispatch(EventIDBallerChanged, EventBallerChanged{
-		Ballers: []Baller{baller},
+		Ballers: []*Baller{baller},
 	})
 
 	mod.eventManager.Dispatch(EventIDTrain, EventTrain{

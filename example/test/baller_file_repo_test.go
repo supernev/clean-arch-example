@@ -7,13 +7,14 @@ import (
 
 func TestReadWrite(t *testing.T) {
 	var baller = example.Baller{
-		ID: 1001,
+		ID:       1001,
+		PlayerID: 10001,
 	}
 
-	var repo = example.NewBallerFileRepo()
-	repo.Store(baller)
+	var repo = example.NewPlayerFileRepo()
+	repo.StoreBaller(&baller)
 
-	var sameBaller = repo.Fetch(1001)
+	var sameBaller = repo.FetchBaller(10001, 1001)
 	if sameBaller.ID != baller.ID {
 		t.Error("Not same ID")
 	}

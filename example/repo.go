@@ -1,7 +1,10 @@
 package example
 
-// IBallerRepo - Baller repo
-type IBallerRepo interface {
-	Fetch(ballerID uint64) Baller
-	Store(baller Baller)
+// IPlayerRepo - Baller repo
+type IPlayerRepo interface {
+	FetchPlayer(playerID uint64) *Player
+	StorePlayer(player *Player)
+
+	FetchBaller(playerID uint64, ballerID uint64) *Baller
+	StoreBaller(baller *Baller)
 }

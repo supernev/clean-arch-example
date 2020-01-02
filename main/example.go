@@ -11,7 +11,7 @@ func main() {
 	defer fmt.Println("Stopping example")
 
 	var eventManager = usecase.NewSimpleEventManager()
-	var ballerRepo = example.NewBallerFileRepo()
+	var ballerRepo = example.NewPlayerFileRepo()
 
 	var modTrain = example.NewTrainUcase(eventManager, ballerRepo)
 
