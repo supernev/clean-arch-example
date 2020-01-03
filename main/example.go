@@ -15,7 +15,7 @@ func main() {
 
 	var modTrain = example.NewTrainUcase(eventManager, ballerRepo)
 
-	var app = usecase.NewApplicationSimple()
+	var app = usecase.NewSimpleApplication()
 	app.AddModule(modTrain)
 
 	app.Start()
