@@ -24,6 +24,12 @@ const (
 	EventIDBallerChanged EventID = 90001
 )
 
+// SyncData - Sync data
+type SyncData struct {
+	Players []*Player
+	Ballers []*Baller
+}
+
 // EventRequestTrain - Event definition
 type EventRequestTrain struct {
 	PlayerID uint64
@@ -33,8 +39,7 @@ type EventRequestTrain struct {
 // EventResponseTrain - Event definition
 type EventResponseTrain struct {
 	ResultCode uint32
-	OldLevel   uint32
-	NewLevel   uint32
+	Sync       SyncData
 }
 
 // EventTrain - Event Definition
@@ -43,9 +48,4 @@ type EventTrain struct {
 	BallerID uint64
 	OldLevel uint32
 	NewLevel uint32
-}
-
-// EventBallerChanged - Event when data change
-type EventBallerChanged struct {
-	Ballers []*Baller
 }

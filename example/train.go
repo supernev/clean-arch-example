@@ -35,19 +35,16 @@ func (mod *TrainUcase) handleRequestTrain(ev usecase.IEvent) {
 	var playerID = args.PlayerID
 
 	// Fetch
+	var player = mod.playerRepo.FetchPlayer(playerID)
 	var baller = mod.playerRepo.FetchBaller(playerID, ballerID)
 
-	var oldLevel = baller.Level
 	// Change properties
 	baller.Level = baller.Level + 1
-	var newLevel = baller.Level
+	player.Exp = player.Exp + 10
 
 	// Store
+	mod.playerRepo.StorePlayer(player)
 	mod.playerRepo.StoreBaller(baller)
-
-	mod.eventManager.Dispatch(EventIDBallerChanged, EventBallerChanged{
-		Ballers: []*Baller{baller},
-	})
 
 	mod.eventManager.Dispatch(EventIDTrain, EventTrain{
 		PlayerID: playerID,
@@ -56,9 +53,12 @@ func (mod *TrainUcase) handleRequestTrain(ev usecase.IEvent) {
 		NewLevel: 2,
 	})
 
+	var syncData = SyncData{
+		Ballers: []*Baller{baller},
+		Players: []*Player{player},
+	}
 	mod.eventManager.Dispatch(EventIDResponseTrain, EventResponseTrain{
 		ResultCode: Success,
-		OldLevel:   oldLevel,
-		NewLevel:   newLevel,
+		Sync:       syncData,
 	})
 }
