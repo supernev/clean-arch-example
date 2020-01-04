@@ -11,8 +11,8 @@ type TrainUcase struct {
 }
 
 // NewTrainUcase - Create new instance
-func NewTrainUcase(eventManager usecase.IEventManager, ballerRepo IPlayerRepo) *TrainUcase {
-	return &TrainUcase{eventManager, ballerRepo}
+func NewTrainUcase(eventManager usecase.IEventManager, playerRepo IPlayerRepo) *TrainUcase {
+	return &TrainUcase{eventManager, playerRepo}
 }
 
 // Init method
