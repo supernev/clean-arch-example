@@ -28,7 +28,7 @@ func TestRequestTrain(t *testing.T) {
 		PlayerID: 10001,
 		BallerID: 1001,
 	}
-	eventManager.Dispatch(example.EventIDRequestTrain, ev)
+	eventManager.Dispatch(usecase.NewSimpleEventContext(), example.EventIDRequestTrain, ev)
 
 	var ballerAgain = repo.FetchBaller(10001, 1001)
 	if ballerAgain.ID != 1001 {

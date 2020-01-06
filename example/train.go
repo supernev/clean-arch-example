@@ -26,10 +26,9 @@ func (mod *TrainUcase) Run() {
 
 // Destroy method
 func (mod *TrainUcase) Destroy() {
-
 }
 
-func (mod *TrainUcase) handleRequestTrain(ev usecase.IEvent) {
+func (mod *TrainUcase) handleRequestTrain(ctx usecase.IEventContext, ev usecase.IEvent) {
 	var args = ev.(EventRequestTrain)
 	var ballerID = args.BallerID
 	var playerID = args.PlayerID
@@ -46,7 +45,7 @@ func (mod *TrainUcase) handleRequestTrain(ev usecase.IEvent) {
 	mod.playerRepo.StorePlayer(player)
 	mod.playerRepo.StoreBaller(baller)
 
-	mod.eventManager.Dispatch(EventIDTrain, EventTrain{
+	mod.eventManager.Dispatch(ctx, EventIDTrain, EventTrain{
 		PlayerID: playerID,
 		BallerID: ballerID,
 		OldLevel: 1,
@@ -57,7 +56,7 @@ func (mod *TrainUcase) handleRequestTrain(ev usecase.IEvent) {
 		Ballers: []*Baller{baller},
 		Players: []*Player{player},
 	}
-	mod.eventManager.Dispatch(EventIDResponseTrain, EventResponseTrain{
+	mod.eventManager.Dispatch(ctx, EventIDResponseTrain, EventResponseTrain{
 		ResultCode: Success,
 		Sync:       syncData,
 	})

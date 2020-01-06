@@ -19,13 +19,3 @@ func (mod *HTTPAgent) GetOS() string {
 func (mod *HTTPAgent) GetVersion() string {
 	return "1.0.1"
 }
-
-// OnRequestTrain - Register a handler for the request
-func (mod *HTTPAgent) OnRequestTrain(fn func(ballerID uint64, playerID uint64)) {
-	mod.requestTrainHandler = fn
-}
-
-// ResponseTrain -
-func (mod *HTTPAgent) ResponseTrain(ResultCode uint32, OldLevel uint32, NewLevel uint32) {
-	// Write and flush
-}

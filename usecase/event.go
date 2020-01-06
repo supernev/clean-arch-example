@@ -7,8 +7,14 @@ type EventID = uint32
 type IEvent interface {
 }
 
+// IEventContext - context the event happens
+type IEventContext interface {
+	Get(name string) interface{}
+	Set(name string, value interface{})
+}
+
 // IEventManager - Event manager interface
 type IEventManager interface {
-	Register(evid EventID, fn func(ev IEvent))
-	Dispatch(evid EventID, ev IEvent)
+	Register(evid EventID, fn func(ctx IEventContext, ev IEvent))
+	Dispatch(ctx IEventContext, evid EventID, ev IEvent)
 }
