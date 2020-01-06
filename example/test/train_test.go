@@ -10,7 +10,7 @@ import (
 func TestRequestTrain(t *testing.T) {
 	var eventManager = usecase.NewSimpleEventManager()
 	var repo = example.NewPlayerFileRepo()
-	var mod = example.NewTrainUcase(eventManager, repo)
+	var mod = example.NewTrainUcase(eventManager)
 	mod.Init()
 
 	// Setup data
@@ -28,7 +28,10 @@ func TestRequestTrain(t *testing.T) {
 		PlayerID: 10001,
 		BallerID: 1001,
 	}
-	eventManager.Dispatch(usecase.NewSimpleEventContext(), example.EventIDRequestTrain, ev)
+
+	var ctx = usecase.NewSimpleEventContext()
+	ctx.Set(example.ContextKeyPlayerRepo, repo)
+	eventManager.Dispatch(ctx, example.EventIDRequestTrain, ev)
 
 	var ballerAgain = repo.FetchBaller(10001, 1001)
 	if ballerAgain.ID != 1001 {

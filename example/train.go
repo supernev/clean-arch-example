@@ -7,12 +7,11 @@ import (
 // TrainUcase - Train Usecase
 type TrainUcase struct {
 	eventManager usecase.IEventManager
-	playerRepo   IPlayerRepo
 }
 
 // NewTrainUcase - Create new instance
-func NewTrainUcase(eventManager usecase.IEventManager, playerRepo IPlayerRepo) *TrainUcase {
-	return &TrainUcase{eventManager, playerRepo}
+func NewTrainUcase(eventManager usecase.IEventManager) *TrainUcase {
+	return &TrainUcase{eventManager}
 }
 
 // Init method
@@ -33,18 +32,27 @@ func (mod *TrainUcase) handleRequestTrain(ctx usecase.IEventContext, ev usecase.
 	var ballerID = args.BallerID
 	var playerID = args.PlayerID
 
+	var playerRepo = ctx.Get(ContextKeyPlayerRepo).(IPlayerRepo)
+
 	// Fetch
-	var player = mod.playerRepo.FetchPlayer(playerID)
-	var baller = mod.playerRepo.FetchBaller(playerID, ballerID)
+	var player = playerRepo.FetchPlayer(playerID)
+	var baller = playerRepo.FetchBaller(playerID, ballerID)
 
 	// Change properties
 	baller.Level = baller.Level + 1
 	player.Exp = player.Exp + 10
 
 	// Store
-	mod.playerRepo.StorePlayer(player)
-	mod.playerRepo.StoreBaller(baller)
+	playerRepo.StorePlayer(player)
+	playerRepo.StoreBaller(baller)
 
+	var changedData = NewChangedData()
+	changedData.AddPlayer(player)
+	changedData.AddBaller(baller)
+
+	ctx.Set(ContextKeyChangedData, changedData)
+
+	// Dispatch a "train" event for other modules to handle
 	mod.eventManager.Dispatch(ctx, EventIDTrain, EventTrain{
 		PlayerID: playerID,
 		BallerID: ballerID,
@@ -52,12 +60,9 @@ func (mod *TrainUcase) handleRequestTrain(ctx usecase.IEventContext, ev usecase.
 		NewLevel: 2,
 	})
 
-	var syncData = SyncData{
-		Ballers: []*Baller{baller},
-		Players: []*Player{player},
-	}
+	// Dispatch a "response" event for other modules to response to client
 	mod.eventManager.Dispatch(ctx, EventIDResponseTrain, EventResponseTrain{
-		ResultCode: Success,
-		Sync:       syncData,
+		ResultCode:  Success,
+		ChangedData: changedData,
 	})
 }
